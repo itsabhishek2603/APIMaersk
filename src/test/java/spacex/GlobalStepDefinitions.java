@@ -1,6 +1,8 @@
 package spacex;
 
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -32,11 +34,15 @@ public class GlobalStepDefinitions {
     public void andVerifyRESTResponseForBelowValues(DataTable dataTable) {
         // Assert on the Response attributes
         logger.info("[Step]: Verify REST response for below values");
+        
         JsonPath jsonPathEvaluator = restBase.response.jsonPath();
         Map<String, String> pathValue = dataTable.asMap(String.class, String.class);
-        for (Map.Entry<String, String> pathValueMap : pathValue.entrySet()) {
+        for (Entry<String, String>  pathValueMap : pathValue.entrySet()) {
             Object value = jsonPathEvaluator.get(pathValueMap.getKey());
+           
+            
             logger.info("Expected " + pathValueMap.getKey() + " value is: " + pathValueMap.getValue());
+            //logger.info(pathValue);
             Assert.assertEquals(pathValueMap.getValue(), String.valueOf(value));
 
         }
